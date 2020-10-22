@@ -41,7 +41,7 @@ export class TokenService {
     }
 
     const { permissions, roles } = await this.permissionsService.getPermissions(user.id)
-
-    return {...token, permissions, roles }
+    
+    return { ...token, permissions, roles }
   }
 }

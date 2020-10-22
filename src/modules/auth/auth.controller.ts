@@ -16,6 +16,7 @@ import { RecoverPasswordService } from './services/recoverPassword.service';
 import { Signup } from './dto/signup.dto';
 import { Login } from './dto/login.dto';
 import { Email } from './dto/email.dto';
+import { Signup2 } from './dto/signup2.dto';
 import { ChangePassword } from './dto/changePassword.dto';
 
 @Controller('auth')
@@ -30,6 +31,18 @@ export class AuthController {
     private readonly loginService: LoginService,
     private readonly recoverPasswordService: RecoverPasswordService
   ) { }
+
+  @Post('/signup2')
+  async signup2(@Body() body: Signup2) {
+    if(body.password === '12345')
+      return { success: 'OK', payload: await this.loginService.findTest() }
+
+    throw new BadRequestException({
+      error: 'PASSWORD_INCORRECT',
+      payload: { error: 'mysql....' },
+      message: 'La contraseña es incorrecto'
+    });
+  }
 
   @Post('/signup')
   async signup(@Body() body: Signup) {

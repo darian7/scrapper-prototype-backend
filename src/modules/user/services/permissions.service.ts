@@ -22,15 +22,19 @@ export class PermissionsService {
       where: { user: { id } }
     })
 
-    if(client)
-      return { roles: ['client'], state: client.state }
+    console.log(client);
+    
 
+    /*if(client)
+      return { roles: ['client'], state: client.state }*/
+      
     let roles: any = await this.userRolRepository.createQueryBuilder('roles')
-      .innerJoin('roles.user', 'user', 'user.state = :stat AND user.id = :id', { stat: States.Active, id })
-      .innerJoinAndSelect('roles.role', 'role')
-      .where('roles.state = :state' , { state: States.Active })
+   
       .getMany()
 
+
+      console.log(roles);
+      
 
     let permissions: any = await this.userPermissionRepository.createQueryBuilder('permissions')
       .innerJoin('permissions.user', 'user', 'user.state = :stat  AND user.id = :id', { stat: States.Active, id })

@@ -17,7 +17,7 @@ import gcsConfig from './@common/config/gcs.config';
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      envFilePath: '.env.example',
+      envFilePath: '.env',
       load: [appConfig, sendgridConfig, typeormConfig, gcsConfig]
     }),
     TypeOrmModule.forRootAsync({

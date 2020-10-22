@@ -1,4 +1,4 @@
-import { Controller, Request, Get, Body, Put, UseGuards, UnauthorizedException,  } from '@nestjs/common';
+import { Controller, Request, Get, Body, Put, UseGuards, UnauthorizedException, Req,  } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 
 import { UpdateProfile } from './dto/updateProfile.dto';
@@ -46,7 +46,9 @@ export class UserController {
   @UseGuards(AuthGuard('jwt'), RolesGuard, PermissionGuard)
   @Roles(roles.SUPERADMIN)
   @Permissions(permissions.ADMIN_USERS)
-  async getClientsAll() {
+  async getClientsAll(@Req() req) {
+    console.log("Controller")
+    console.log(req.roles)
     return await this.findService.getClientsAll()
   }
 }
