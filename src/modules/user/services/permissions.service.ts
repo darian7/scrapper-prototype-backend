@@ -13,7 +13,7 @@ export class PermissionsService {
     @InjectRepository(Client, 'users') private readonly clientRepository: Repository<Client>,
     @InjectRepository(UserRole, 'users') private readonly userRolRepository: Repository<UserRole>,
     @InjectRepository(UserPermission, 'users') private readonly userPermissionRepository: Repository<UserPermission>
-  ){}
+  ) { }
 
   async getPermissions(id: number) {
 
@@ -22,19 +22,14 @@ export class PermissionsService {
       where: { user: { id } }
     })
 
-    console.log(client);
-    
-
     /*if(client)
       return { roles: ['client'], state: client.state }*/
-      
+
     let roles: any = await this.userRolRepository.createQueryBuilder('roles')
-   
+      .innerJoin('roles.user', 'user', 'user.state = :stat AND user.id = :id', { stat: States.Active, id })
+      .innerJoinAndSelect('roles.role', 'role')
+      .where('roles.state = :state', { state: States.Active })
       .getMany()
-
-
-      console.log(roles);
-      
 
     let permissions: any = await this.userPermissionRepository.createQueryBuilder('permissions')
       .innerJoin('permissions.user', 'user', 'user.state = :stat  AND user.id = :id', { stat: States.Active, id })
@@ -42,11 +37,11 @@ export class PermissionsService {
       .where('permissions.state = :state', { state: States.Active })
       .getMany()
 
-    roles = roles.map(roles => roles.role.key )
+    roles = roles.map(roles => roles.role.key)
     permissions = permissions.map(permissions => permissions.permission.key)
-    
+
     return { roles, permissions }
-  
+
   }
 
 }

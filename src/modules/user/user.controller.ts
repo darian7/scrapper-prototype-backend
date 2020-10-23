@@ -44,7 +44,7 @@ export class UserController {
 
   @Get('/clients-all')
   @UseGuards(AuthGuard('jwt'), RolesGuard, PermissionGuard)
-  @Roles(roles.SUPERADMIN)
+  @Roles(roles.SUPERADMIN, roles.ADMIN)
   @Permissions(permissions.ADMIN_USERS)
   async getClientsAll(@Req() req) {
     console.log("Controller")
