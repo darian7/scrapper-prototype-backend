@@ -1,7 +1,7 @@
 import { registerAs } from "@nestjs/config";
 
 export default registerAs('typeorm', () => {
-  
+
   const configDefault = {
     type: process.env.DB_TYPE,
     host: process.env.DB_HOST,
@@ -11,7 +11,10 @@ export default registerAs('typeorm', () => {
     database: process.env.DB_DATABASE,
     synchronize: true,
     logging: false,
-    entities: ['dist/entities/**/*entity.js']
+    entities: ['dist/entities/**/*entity.js'],
+    ssl: {
+      rejectUnauthorized: false
+    },
     //entities: [(process.env.NODE_ENV === 'local' ? 'src/entities/**/*.ts' : 'dist/entities/**/*.js' )]
   }
 
