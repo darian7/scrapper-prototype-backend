@@ -12,7 +12,7 @@ import { PermissionDatabaseDefault } from "./database/permission.default";
 import { RolDatabaseDefault } from "./database/role.default";
 import { LanguageDatabaseDefault } from "./database/language.default";
 import { TokenService } from "./services/token.service";
-import { UserModule } from "../modules/user/user.module";
+import { UserModule } from "../modules/scraping/scraping.module";
 
 @Global()
 @Module({

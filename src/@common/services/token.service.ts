@@ -5,13 +5,11 @@ import { Repository } from "typeorm";
 import { User } from "../../entities/users/user.entity";
 import { States } from "../../entities/enums/states.enum";
 import { TokenJwt } from "../strategys/jwt.strategy";
-import { PermissionsService } from "../../modules/user/services/permissions.service";
 
 @Injectable()
 export class TokenService {
   constructor(
     @InjectRepository(User, 'users') private readonly userRepository: Repository<User>,
-    private readonly permissionsService: PermissionsService
   ){}
 
   serializeToken = async (email) => {
@@ -40,8 +38,7 @@ export class TokenService {
       throw new UnauthorizedException('invalid or expire token')
     }
 
-    const { permissions, roles } = await this.permissionsService.getPermissions(user.id)
     
-    return { ...token, permissions, roles }
+    return { ...token }
   }
 }
