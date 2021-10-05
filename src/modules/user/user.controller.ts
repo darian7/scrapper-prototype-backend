@@ -1,4 +1,4 @@
-import { Controller, Request, Get, Body, Put, UseGuards, UnauthorizedException, Req,  } from '@nestjs/common';
+import { Controller, Request, Get, Body, Put, UseGuards, UnauthorizedException, Req, Post,  } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 
 import { UpdateProfile } from './dto/updateProfile.dto';
@@ -12,7 +12,7 @@ import { PermissionGuard } from 'src/@common/guards/permissions.guard';
 import { PermissionsService } from './services/permissions.service';
 import { ProfileService } from './services/profile.service';
 
-@Controller('user')
+@Controller('scraping')
 export class UserController {
   constructor(
     private readonly findService: FindService,
@@ -42,13 +42,18 @@ export class UserController {
     return await this.profileService.profileUpdate(req.user.id, body);
   }
 
-  @Get('/clients-all')
-  @UseGuards(AuthGuard('jwt'), RolesGuard, PermissionGuard)
-  @Roles(roles.SUPERADMIN, roles.ADMIN)
-  @Permissions(permissions.ADMIN_USERS)
-  async getClientsAll(@Req() req) {
-    console.log("Controller")
-    console.log(req.roles)
-    return await this.findService.getClientsAll()
+  @Post('/script')
+  async scrapingScript(@Body() body) {
+    return await this.findService.scrapingScript(body);
+  }
+
+  @Post('/html')
+  async scraping(@Body() body) {
+    return await this.findService.scraping(body);
+  }
+
+  @Post('/ink-bio')
+  async scrapingScriptInk(@Body() body) {
+    return await this.findService.scrapingScriptInk(body);
   }
 }

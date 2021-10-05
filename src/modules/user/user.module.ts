@@ -11,10 +11,12 @@ import { UserPermission } from '../../entities/users/userPermission.entity';
 import { FindService } from './services/find.service';
 import { PermissionsService } from './services/permissions.service';
 import { ProfileService } from './services/profile.service';
+import { HttpModule } from '@nestjs/axios';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([User, Person, Client, Language, UserRole, UserPermission], 'users')
+    TypeOrmModule.forFeature([User, Person, Client, Language, UserRole, UserPermission], 'users'),
+    HttpModule
   ],
   controllers: [UserController],
   providers: [
