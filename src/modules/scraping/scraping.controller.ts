@@ -1,24 +1,22 @@
 import { Controller, Body, Post } from '@nestjs/common';
-import { FindService } from './services/find.service';
+
+import { LinktreeService } from 'src/@common/services/scraping/linktree/linktree.service';
+import { LnkbioService } from 'src/@common/services/scraping/lnkbio/lnkbio.service';
 
 @Controller('scraping')
-export class UserController {
+export class ScrapingController {
   constructor(
-    private readonly findService: FindService,
+    private readonly linktreeService: LinktreeService,
+    private readonly lnkbioService: LnkbioService,
   ) { }
 
-  @Post('/script')
+  @Post('/link-tree')
   async scrapingScript(@Body() body) {
-    return await this.findService.scrapingScript(body);
-  }
-
-  @Post('/html')
-  async scraping(@Body() body) {
-    return await this.findService.scraping(body);
+    return await this.linktreeService.getLinksProfile(body);
   }
 
   @Post('/ink-bio')
   async scrapingScriptInk(@Body() body) {
-    return await this.findService.scrapingScriptInk(body);
+    return await this.lnkbioService.getLinksProfile(body);
   }
 }

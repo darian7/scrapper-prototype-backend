@@ -1,20 +1,15 @@
 import { Injectable } from "@nestjs/common";
-import { InjectRepository } from "@nestjs/typeorm";
-import { Repository } from "typeorm";
-
-import { User } from "../../../entities/users/user.entity";
 import { HttpService } from "@nestjs/axios";
-const htmlToJson = require('html-to-json');
+import htmlToJson = require('html-to-json')
 
 @Injectable()
-export class FindService {
+export class LinktreeService {
   constructor(
-    @InjectRepository(User, 'users') private readonly userRepository: Repository<User>,
     private httpService: HttpService
   ) {
   }
 
-  async scraping(body) {
+  async getLinks(body) {
     const linktreeProileWeb = await this.httpService.post(body.url)
       .toPromise()
       .then((response) => {
@@ -45,7 +40,7 @@ export class FindService {
     }
   }
 
-  async scrapingScript(body) {
+  async getLinksProfile(body) {
     const linktreeProileWeb = await this.httpService.post(body.url)
       .toPromise()
       .then((response) => {
@@ -73,40 +68,6 @@ export class FindService {
       links,
       socialLinks,
       theme
-    }
-  }
-
-  async scrapingScriptInk(body) {
-    const linktreeProileWeb = await this.httpService.post(body.url)
-      .toPromise()
-      .then((response) => {
-        return response?.data
-      })
-      .catch((error) => {
-        return error.response.data
-      });
-
-    const bodyProfileLink = await htmlToJson.parse(linktreeProileWeb,
-      function ($doc) {
-        return $doc.find('.pb-links').html();
-      }
-    );
-
-    const links = await htmlToJson.parse(bodyProfileLink, function () {
-      return this.map('a', function ($item) {
-        return $item.attr('href');
-      });
-    }).then(function (items) {
-      const dataArr = new Set(items);
-      let result = [...dataArr];
-      
-      return result
-    }, function (err) {
-    });
-
-    return {
-      length: links?.length,
-      links: links?.map(link => ({ url: link }))
     }
   }
 }

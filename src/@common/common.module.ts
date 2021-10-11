@@ -12,13 +12,17 @@ import { PermissionDatabaseDefault } from "./database/permission.default";
 import { RolDatabaseDefault } from "./database/role.default";
 import { LanguageDatabaseDefault } from "./database/language.default";
 import { TokenService } from "./services/token.service";
-import { UserModule } from "../modules/scraping/scraping.module";
+import { ScrapingModule } from "../modules/scraping/scraping.module";
+import { LinktreeService } from "./services/scraping/linktree/linktree.service";
+import { LnkbioService } from "./services/scraping/lnkbio/lnkbio.service";
+import { HttpModule } from "@nestjs/axios";
 
 @Global()
 @Module({
   imports: [
     TypeOrmModule.forFeature([User, Permission, Role, Language], 'users'),
-    UserModule
+    ScrapingModule,
+    HttpModule
   ],
   providers: [
     CryptoService,
@@ -26,12 +30,16 @@ import { UserModule } from "../modules/scraping/scraping.module";
     TokenService,
     PermissionDatabaseDefault,
     RolDatabaseDefault,
-    LanguageDatabaseDefault
+    LanguageDatabaseDefault,
+    LnkbioService,
+    LinktreeService
   ],
   exports: [
     TokenService,
     CryptoService,
-    SengridService
+    SengridService,
+    LinktreeService,
+    LnkbioService
   ]
 })
 export class CommonModule { }
