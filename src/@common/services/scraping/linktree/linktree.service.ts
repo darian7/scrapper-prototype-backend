@@ -60,14 +60,20 @@ export class LinktreeService {
     let links = bodyProfileLink?.props?.pageProps?.account?.links
     let socialLinks = bodyProfileLink?.props?.pageProps?.account?.socialLinks
     let theme = bodyProfileLink?.props?.pageProps?.account?.theme
+    const profile = {
+      name: bodyProfileLink?.props?.pageProps?.pageTitle,
+      description: bodyProfileLink?.props?.pageProps?.description,
+      image: bodyProfileLink?.props?.pageProps?.profilePictureUrl,
+    }
 
     links = links?.filter(link => link.url && link.url !== "link.url")
 
     return {
+      profile,
       length: links?.length,
       links,
       socialLinks,
-      theme
+      theme,
     }
   }
 }

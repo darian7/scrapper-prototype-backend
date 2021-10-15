@@ -16,6 +16,7 @@ import { ScrapingModule } from "../modules/scraping/scraping.module";
 import { LinktreeService } from "./services/scraping/linktree/linktree.service";
 import { LnkbioService } from "./services/scraping/lnkbio/lnkbio.service";
 import { HttpModule } from "@nestjs/axios";
+import { GenericService } from "./services/scraping/generic/generic.service";
 
 @Global()
 @Module({
@@ -32,14 +33,16 @@ import { HttpModule } from "@nestjs/axios";
     RolDatabaseDefault,
     LanguageDatabaseDefault,
     LnkbioService,
-    LinktreeService
+    LinktreeService,
+    GenericService
   ],
   exports: [
     TokenService,
     CryptoService,
     SengridService,
     LinktreeService,
-    LnkbioService
+    LnkbioService,
+    GenericService
   ]
 })
 export class CommonModule { }
